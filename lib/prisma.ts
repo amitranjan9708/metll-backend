@@ -16,10 +16,7 @@ export async function getPrisma() {
   await import("dotenv/config");
 
   // Create a connection pool
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("DATABASE_URL environment variable is not set");
-  }
+  const connectionString = process.env.DATABASE_URL || "postgresql://neondb_owner:npg_DdCe0XfPoxb4@ep-red-cloud-ahp4kpme-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
 
   const pool = new Pool({ connectionString });
   const adapter = new PrismaPg(pool);
