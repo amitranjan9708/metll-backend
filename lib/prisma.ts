@@ -7,7 +7,8 @@ export async function getPrisma() {
   }
 
   // Only import these when actually needed (at runtime)
-  const { PrismaClient } = await import("@prisma/client");
+  const prismaModule = await import("@prisma/client") as any;
+  const PrismaClient = prismaModule.PrismaClient;
   const { Pool } = await import("pg");
   const { PrismaPg } = await import("@prisma/adapter-pg");
 
@@ -26,7 +27,7 @@ export async function getPrisma() {
   // PrismaClient is attached to the `global` object in development to prevent
   // exhausting your database connection limit.
   const globalForPrisma = globalThis as unknown as {
-    prisma: typeof PrismaClient | undefined;
+    prisma: any | undefined;
   };
 
   prismaInstance =
